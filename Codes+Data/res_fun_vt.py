@@ -4,9 +4,13 @@ FUNCTION FOR MEAN-VARIANCE PORTFOLIO OPTIMIZATION VIA MC SIMULATION
 Objective: Mean Return Maximization
 Target: Portfolio (annual) Volatility
 """
+# Import relevant packages
+
 import pandas as pd
 import numpy as np
 import scipy as sp
+
+# Define functions
 
 def port_return(x,r,annual):
     'x: weights of the portfolio'

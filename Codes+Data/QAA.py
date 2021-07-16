@@ -131,8 +131,8 @@ for p in lags:
     ic.iloc[p,0],ic.iloc[p,1]=res.aic,res.bic
     
 ic.plot(grid=True,xlabel='Lag',title='INFORMATION CRITERIA VALUES') 
-# Using a VAR(2 or 1) if BIC or VAR(6) is AIC
-''' suca '''
+# Using a VAR(2 or 1) if BIC or VAR(6) if AIC
+
 #%% Fit the optimal VAR and take the forecasts
 mdl=sm.tsa.VAR(Data_fit)
 l=1 # VAR lag order
@@ -156,12 +156,14 @@ nport=len(var_tg) # number of portfolios
 
 from res_fun_vt import mc_opt # import the function from the library (home made)
 W=mc_opt(ast,E,V,sz,annual,nsim,var_tg) # run the Resampling
+
 #%% Plot the results
 path='/Users/alfredo/Desktop/CC_Materiale/Pomante/Exam_QAA/'
 ax=W.transpose().plot(kind='area',title='COMPOSITION OF RESAMPLED PORTFOLIOS',figsize=(10,6))
 plt.legend(bbox_to_anchor=(1, -0.1), fancybox=True,ncol=3)
 #plt.savefig(path+'Resampled_Portfolios1'+'.pdf',bbox_inches='tight')
 #W.to_excel('Res.xlsx')
+
 #%% Portfolios performance Out-of-Sample in Turbulent period
 R=Data_test@W # porfolios returns
 print('Annualized Percentage Returns: '+str(np.around(annualize_rets(R,annual)*100,2)))
