@@ -14,6 +14,7 @@ import scipy as sp
 import statsmodels.api as sm
 from arch import arch_model
 from arch.unitroot import PhillipsPerron
+
 #%% Define some functions
 
 ' Define some Functions '
@@ -92,6 +93,7 @@ def port_vola(x, r, annual):
     'x: weights of the portfolio'
     'r: returns of the assets '  
     return np.sqrt(port_variance(x, r, annual))
+
 #%% Load and Prepare the data
 Data=pd.read_excel('Data_QAA.xlsx',sheet_name='Data')
 Data.set_index(Data.loc[:,'Date'],inplace=True)
