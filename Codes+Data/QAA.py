@@ -12,7 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import scipy as sp
 import statsmodels.api as sm
-from arch import arch_model
+import mgarch 
 from arch.unitroot import PhillipsPerron
 
 #%% Define some functions
@@ -134,6 +134,7 @@ ic.plot(grid=True,xlabel='Lag',title='INFORMATION CRITERIA VALUES')
 # Using a VAR(2 or 1) if BIC or VAR(6) if AIC
 
 #%% Fit the optimal VAR and take the forecasts
+
 mdl=sm.tsa.VAR(Data_fit)
 l=1 # VAR lag order
 res=mdl.fit(l)
@@ -142,12 +143,14 @@ nobs=1 # number of the ahead forecast (one year)
 forc_var=res.forecast(Data.values[-l:],steps=nobs)
 E=pd.Series(forc_var.reshape(forc_var.shape[1]),index=ast,name='Daily forc')# forecasted returns
 #%% Fit the DCC-GARCH and date the forecasts
-import mgarch # proprietary library for DCC
+
 mdl=mgarch.mgarch() # specify the DCC with Gaussian distribution
 mdl.fit(Data_fit.iloc[-500:,:]) # fit on half of the observations of the VAR
 V=mdl.predict(nobs)['cov']
 V=pd.DataFrame(V,index=ast,columns=ast) # Forecasted daily Variance-Covariance matrix 
+
 #%% Computation of the Resampled Porfolios
+
 nsim=1000 # number of simulations
 sz=30 # size of each simulation (the lower the lower the confidence in forecasts) --> Mid Confidence
 annual=252 # depending on the frequency of the data
@@ -165,6 +168,7 @@ plt.legend(bbox_to_anchor=(1, -0.1), fancybox=True,ncol=3)
 #W.to_excel('Res.xlsx')
 
 #%% Portfolios performance Out-of-Sample in Turbulent period
+
 R=Data_test@W # porfolios returns
 print('Annualized Percentage Returns: '+str(np.around(annualize_rets(R,annual)*100,2)))
 print('Annualized Percentage Volatility: '+str(np.around(annualize_vol(R,annual)*100,2)))
@@ -213,7 +217,7 @@ plt.close()
  model.
 '''
 
-#%% #%% Herfindhal Index
+#%% Herfindhal Index
 
 def HHI(s):
     '''
