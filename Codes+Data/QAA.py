@@ -132,6 +132,7 @@ for p in lags:
     
 ic.plot(grid=True,xlabel='Lag',title='INFORMATION CRITERIA VALUES') 
 # Using a VAR(2 or 1) if BIC or VAR(6) is AIC
+''' suca '''
 #%% Fit the optimal VAR and take the forecasts
 mdl=sm.tsa.VAR(Data_fit)
 l=1 # VAR lag order
