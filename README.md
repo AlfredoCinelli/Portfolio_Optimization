@@ -1,2 +1,4 @@
 # Portfolio_Optimization
-Repository in which there are some Python applications written via Spyder of portfolio optimization.
+
+Repository in which there is an application of portfolio optimization via resampling
+and the application of multivariate time series models (forecasting purposes).
