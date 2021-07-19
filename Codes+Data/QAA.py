@@ -17,16 +17,17 @@ from arch.unitroot import PhillipsPerron
 
 #%% Define some functions
 
-' Define some Functions '
 ' Functions are written for pd.Series and extended to pd.DataFrames '
 
 # Average Annualized Return
 
 def annualize_rets_Series(s, periods_per_year):
     '''
-    Computes the return per year, or, annualized return.
-    The variable periods_per_year can be, e.g., 12, 52, 252, in 
-    case of monthly, weekly, and daily data.
+    PURPOSE: Computes the return per year, or, annualized return
+    
+        s: Series of returns
+        periods_per_year: time units composing the year (e.g 12 if monthly etc.)
+    
     '''
     s = s.dropna()
     growth = (1 + s).prod()
@@ -35,11 +36,15 @@ def annualize_rets_Series(s, periods_per_year):
 
 def annualize_rets(s, periods_per_year):
     '''
-    Computes the return per year, or, annualized return.
+    PURPOSE: Computes the return per year, or, annualized return.
     The variable periods_per_year can be, e.g., 12, 52, 252, in 
     case of monthly, weekly, and daily data.
     The method takes in input either a DataFrame or a Series, 
     in the former case, it computes the annualized return for every column (Series) by using pd.aggregate
+    
+        s: Series, or, DataFrame of returns
+        periods_per_year: time units composing the year (12 if monthly etc.)
+    
     '''
     if isinstance(s, pd.DataFrame):
         return s.aggregate(annualize_rets_Series, periods_per_year=periods_per_year)
@@ -50,21 +55,29 @@ def annualize_rets(s, periods_per_year):
 
 def annualize_vol_Series(s, periods_per_year):
     '''
-    Computes the volatility per year, or, annualized volatility.
+    PURPOSE: Computes the volatility per year, or, annualized volatility.
     The variable periods_per_year can be, e.g., 12, 52, 252, in 
     case of monthly, weekly, and daily data.
+    
+        s: Series of returns
+        periods_per_year: time units composing the year (12 if monthly etc.)
+        
     '''
     s = s.dropna()   
     return s.std() * (periods_per_year)**(0.5)
 
 def annualize_vol(s, periods_per_year):
     '''
-    Computes the volatility per year, or, annualized volatility.
+    PURPOSE: Computes the volatility per year, or, annualized volatility.
     The variable periods_per_year can be, e.g., 12, 52, 252, in 
     case of monthly, weekly, and daily data.
     The method takes in input either a DataFrame, or a Series
     In the former case, it computes the annualized volatility of every column 
     (Series) by using pd.aggregate. 
+    
+        s: Series, or, DataFrame of returns
+        periods_per_year: time units composing the year (12 if monthly etc.)
+        
     '''
     if isinstance(s, pd.DataFrame):
         return s.aggregate(annualize_vol_Series, periods_per_year=periods_per_year)
@@ -74,24 +87,39 @@ def annualize_vol(s, periods_per_year):
 # Expected Portfolio Returns 
 
 def port_ret(x, mu, annual):
-    'x: weights of the portfolio'
-    'mu: returns of the assets '
+    '''
+    PURPOSE: Computes the annualized mean return of a portfolio
+        x: weights of the portfolio
+        mu: returns of the assets
+        
+    '''       
+       
     return (x.T@mu)*annual
 
 
 # Portfolio Variance 
 
 def port_variance(x, r, annual):
-    'x: weights of the portfolio'
-    'r: returns of the assets '
+    '''
+    PURPOSE: Computes the annualized variance of a portfolio
+        x: weights of the portfolio
+        mu: returns of the assets
+        
+    '''
+    
     S = r.cov()
     return (x.T@S@x)*annual
 
 # Portfolio Volatility 
 
 def port_vola(x, r, annual):
-    'x: weights of the portfolio'
-    'r: returns of the assets '  
+    '''
+    PURPOSE: Computes the annualized mean return of a portfolio
+        x: weights of the portfolio
+        mu: returns of the assets
+        
+    '''
+    
     return np.sqrt(port_variance(x, r, annual))
 
 #%% Load and Prepare the data
