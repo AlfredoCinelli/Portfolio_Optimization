@@ -13,21 +13,32 @@ import scipy as sp
 # Define functions
 
 def port_return(x,r,annual):
-    'x: weights of the portfolio'
-    'r: returns of the assets'
-    'annual: time rescaling parameter (e.g. 12 if daily data, ecc.)'
+    '''
+    PURPOSE: Compute annualized return of a portfolio
+    
+        x: weights of the portfolio
+        r: returns of the assets
+        annual: time rescaling parameter (e.g. 12 if daily data, ecc.)
+        
+     '''
     
     mu=r.mean(axis=0) # mean over columns
     return -(x.T@mu)*annual # negate for optimization purposes
 
 def mc_opt(ast,E,V,sz,annual,nsim,var_tg):
-    'ast: list of asset tickers'
-    'E: vector of mean expected returns'
-    'V: variance-covariance matrix of returns'
-    'sz: size of the simulate paths'
-    'annual: time unit in year basis (e.g. 252 if daily, 12 if monthly, etc.)'
-    'nsim: number of simulation for each target return'
-    'var_tg: portfolios target volatility'
+    '''
+    PURPOSE: Return smoothed portfolio weights via Monte Carlo Resampling given the 
+    vector of mean returns and the vc matrix (and target parameters)
+    
+        ast: list of asset tickers
+        E: vector of mean expected returns
+        V: variance-covariance matrix of returns    
+        sz: size of the simulate paths
+        annual: time unit in year basis (e.g. 252 if daily, 12 if monthly, etc.)
+        nsim: number of simulation for each target return
+        var_tg: portfolios target volatility
+    
+    '''
     
     x0=np.ones(len(E))*(1/len(E)) # Equally weighted starting 
     nsim=np.arange(1,nsim+1,1) # number of simulations stream
