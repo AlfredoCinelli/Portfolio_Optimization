@@ -1,0 +1,10 @@
+README.md
+setup.cfg
+setup.py
+mgarch/__init__.py
+mgarch/mgarch.py
+mgarch.egg-info/PKG-INFO
+mgarch.egg-info/SOURCES.txt
+mgarch.egg-info/dependency_links.txt
+mgarch.egg-info/requires.txt
+mgarch.egg-info/top_level.txt
